@@ -1,0 +1,31 @@
+$harmony-primary: #00aee9;
+$harmony-secondary: #4fe7c8;
+$harmony-gradient: linear-gradient(
+  to right top,
+  $harmony-primary,
+  $harmony-secondary
+);
+
+$dark-purple: #3b3174;
+$light-purple: #626eb0;
+$purple-gradient: linear-gradient(180deg, $light-purple, $dark-purple);
+
+$grey: #292929;
+$dark-grey: darken(#292929, 15%);
+$light-grey: lighten(#292929, 10%);
+
+$blue: #1da3c9;
+$blue-gradient: linear-gradient(to right top, $blue, lighten($blue, 15%));
+
+$green: #3df997;
+$green-2: #38f997;
+$dark-green: darken($green, 20%);
+$light-green: lighten($green, 30%);
+
+$pink: #fa9191;
+$dark-pink: darken(#fa9191, 15%);
+$light-pink: lighten(#fa9191, 5%);
+
+$primary-theme: $green;
+$secondary-theme: $light-grey;
+$complementary-theme: $grey;

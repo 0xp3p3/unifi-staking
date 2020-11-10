@@ -1,0 +1,40 @@
+@import "Styles/_colors.scss";
+
+.Home {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 0;
+
+  &__item {
+    flex: 1;
+    width: 20rem;
+    height: 20rem;
+    padding: 1rem;
+    border: 1px solid $light-grey;
+    border-radius: 3px;
+    margin: 0 1rem;
+    transition: border 0.5s;
+    cursor: pointer;
+
+    &.green {
+      background: $primary-theme;
+      border: 1px solid $primary-theme;
+    }
+
+    &:hover {
+      border: 1px solid $primary-theme;
+    }
+
+    &__title {
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    &__text {
+      font-size: 0.8rem;
+    }
+  }
+}
