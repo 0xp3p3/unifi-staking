@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "../../Components/Button";
 
 import "./HomeHeader.scss";
 
@@ -6,15 +7,25 @@ export const HomeHeader = () => {
   return (
     <div className="HomeHeader">
       <div className="HomeHeader__left">
-        <div className="HomeHeader__left__title">Lorem ipsum</div>
+        <div className="HomeHeader__left__title">
+          Binance Smart Chain UNFI Staking Promotion
+        </div>
         <div className="HomeHeader__left__body">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          UNFI is the first sustainable DeFi token to incorporate Proof of Stake
+          elements into its powerful DAO representative governance model. Start
+          earning rewards now as we count down to the launch of the
+          revolutionary Proof of Stake Global Governance Model powered by UNFI!
+          Stake your UNFI today to earn more UNFI rewards. All UNFI rewards can
+          be claimed at the conclusion of the promotion.
+        </div>
+        <div className="HomeHeader__left__more-info">
+          <a
+            href="https://unifiprotocol.zendesk.com/hc/en-us/articles/360051852432-Global-Governance-Model-GGM-"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button onClick={() => {}}>Global Governance Model</Button>
+          </a>
         </div>
       </div>
       <div className="HomeHeader__right"></div>
