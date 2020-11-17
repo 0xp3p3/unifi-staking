@@ -7,6 +7,7 @@ import { ConnectionModal } from "../ConnectionModal";
 import { ReactComponent as UnifiLogo } from "Assets/Unifi.svg";
 
 import "./Header.scss";
+import { Config } from "../../Config";
 
 export const Header: React.FC = ({ children }) => {
   const adapter = useRecoilValue(Adapter);
@@ -24,7 +25,7 @@ export const Header: React.FC = ({ children }) => {
           {adapter && (
             <>
               <span>{balance["BNB"]} BNB</span>
-              <span>{balance["UNFI"]} UNFI</span>
+              <span>{balance[Config.contracts.UNFI.address]} UNFI</span>
             </>
           )}
           <span

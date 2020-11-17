@@ -9,7 +9,7 @@ export const Updater = () => {
   const adapter = useRecoilValue(Adapter);
   const [, setBalances] = useRecoilState(Balances);
 
-  const updateBalances = useCallback(
+  const updateStateBalances = useCallback(
     (balances: AdapterBalance[]) => {
       balances.forEach((b) => {
         setBalances((state) => ({ ...state, [b.name]: b.balance }));
@@ -18,11 +18,19 @@ export const Updater = () => {
     [setBalances]
   );
 
-  useEffect(() => {
+  const fetchBalances = () => {
     if (!adapter) return;
-    adapter.getBalances();
-    Emitter.on(EmitterAction.BALANCE, updateBalances as any);
-  }, [adapter, updateBalances]);
+    adapter.getBalances().then(() => {
+      setTimeout(() => {
+        fetchBalances();
+      }, 5000);
+    });
+  };
+
+  useEffect(() => {
+    fetchBalances();
+    Emitter.on(EmitterAction.BALANCE, updateStateBalances as any);
+  }, [adapter, updateStateBalances]);
 
   return <></>;
 };

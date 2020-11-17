@@ -1,9 +1,26 @@
 @import "Styles/_colors.scss";
 
-.Input {
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  outline: 0;
-  border-radius: 5px;
-  padding: 0.4rem 0.3rem;
-  text-align: center;
+.Input-Wrapper {
+  position: relative;
+
+  .Input {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    outline: 0;
+    border-radius: 5px;
+    padding: 0.4rem 0.3rem;
+    text-align: center;
+
+    &.max {
+      padding-right: 3rem;
+    }
+  }
+
+  &__max {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.3rem;
+    color: rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+    cursor: pointer;
+  }
 }

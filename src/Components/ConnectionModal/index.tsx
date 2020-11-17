@@ -2,6 +2,9 @@ import React from "react";
 import Modal from "react-modal";
 import { useAdapter } from "Hooks/useAdapter";
 import { Close } from "@material-ui/icons";
+import MetaMask from "Assets/Wallet/metamask.png";
+import TrustWallet from "Assets/Wallet/trustwallet.png";
+import MathWallet from "Assets/Wallet/mathwallet.png";
 
 import "./ConnectionModal.scss";
 
@@ -28,9 +31,24 @@ export const ConnectionModal: React.FC<{
 
         <div className="ConnectionModal__body">
           <ul>
-            <li onClick={onConnectClick}>MetaMask</li>
-            <li onClick={onConnectClick}>MathWallet</li>
-            <li onClick={onConnectClick}>TrustWallet</li>
+            <li onClick={onConnectClick}>
+              <span>MetaMask</span>
+              <span className="wallet-icon">
+                <img src={MetaMask} alt="metamask" />
+              </span>
+            </li>
+            <li onClick={onConnectClick}>
+              <span>MathWallet</span>
+              <span className="wallet-icon">
+                <img src={MathWallet} alt="mathwallet" />
+              </span>
+            </li>
+            <li onClick={onConnectClick}>
+              <span>TrustWallet</span>
+              <span className="wallet-icon">
+                <img src={TrustWallet} alt="trustwallet" />
+              </span>
+            </li>
           </ul>
         </div>
       </div>

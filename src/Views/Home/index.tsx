@@ -1,4 +1,5 @@
 import React from "react";
+import Countdown from "react-countdown";
 import { Button } from "../../Components/Button";
 import { Input } from "../../Components/Input";
 
@@ -17,7 +18,7 @@ export const Home = () => {
           <div className="Stake">
             <div className="Stake__available">You have 100 UNFI available</div>
             <div className="Stake__input">
-              <Input placeholder="Amount" />
+              <Input placeholder="Amount" max={"100"} />
             </div>
           </div>
           <div className="Home__items__item__submit">
@@ -27,11 +28,15 @@ export const Home = () => {
         <div className="Home__items__item">
           <div className="Home__items__item__title">Claim</div>
           <div className="Unclaimed">
-            <div className="Unclaimed__amount">2</div>
-            <div className="Unclaimed__label">Unclaimed Staking Rewards</div>
+            <div className="Unclaimed__amount">
+              <Countdown date={1608357600000} />
+            </div>
+            <div className="Unclaimed__label">Time to claim your rewards</div>
           </div>
           <div className="Home__items__item__submit">
-            <Button onClick={() => {}}>Claim Rewards</Button>
+            <Button disabled onClick={() => {}}>
+              Claim Rewards
+            </Button>
           </div>
         </div>
         <div className="Home__items__item">

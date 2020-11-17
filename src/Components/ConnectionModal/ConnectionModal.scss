@@ -26,11 +26,31 @@
 
       li {
         list-style: none;
-        padding: 0.5rem 1rem;
+        padding: 0.25rem 1rem;
         margin: 1rem 0;
         border-radius: 5px;
         background: $lightest-grey;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: background 0.3s;
+
+        &:hover {
+          background: darken($lightest-grey, 5%);
+        }
+
+        .wallet-icon {
+          height: 30px;
+          width: 30px;
+          display: flex;
+          justify-content: center;
+
+          img {
+            height: 30px;
+            width: auto;
+          }
+        }
       }
     }
   }

@@ -10,6 +10,8 @@ import { ContractMethod } from "./Contract";
 import { Emitter, EmitterAction } from "Utils/EventEmitter";
 import { BigNumber as BN } from "Utils/BigNumber";
 import { getPrecision } from "../Utils/Decimals";
+import ERC20ABI from "./ABI/ERC20";
+import StakeABI from "./ABI/Stake";
 
 declare global {
   interface Window {
@@ -45,9 +47,7 @@ export default class EthAdapter implements IAdapter {
         const token = await this.getBalanceOf(
           Config.contracts[contract].address
         );
-
         balances.push(token);
-
         Emitter.emit(EmitterAction.BALANCE, [token]);
       }
 
@@ -64,7 +64,7 @@ export default class EthAdapter implements IAdapter {
         try {
           const handleEthereum = () => {
             const { ethereum } = window;
-            if (ethereum && ethereum.isMetaMask) {
+            if (ethereum) {
               ethereum
                 .request({ method: "eth_requestAccounts" })
                 .then(async (accounts: string[]) => {
@@ -113,13 +113,13 @@ export default class EthAdapter implements IAdapter {
   initializeContracts() {
     const contracts: { address: string; abi: ethers.ContractInterface }[] = [];
 
-    // Object.entries(Config.contracts).forEach(
-    //   ([, { address }]) => {
-    //     if (address !== this.nativeTokenName) {
-    //       contracts.push({ address, abi: {} });
-    //     }
-    //   }
-    // );
+    Object.entries(Config.contracts).forEach(([, { address }]) => {
+      if (address !== this.nativeTokenName) {
+        contracts.push({ address, abi: ERC20ABI });
+      }
+    });
+
+    contracts.push({ address: Config.stakeContract.address, abi: StakeABI });
 
     contracts.forEach((c) => {
       this.contracts[c.address] = new ethers.Contract(
