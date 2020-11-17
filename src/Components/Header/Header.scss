@@ -4,4 +4,44 @@
   padding: 0.25rem 10vw;
   background: $complementary-theme;
   color: #fff;
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+
+    &__logo {
+      svg {
+        height: 3rem;
+        width: auto;
+      }
+    }
+
+    &__right-menu {
+      display: flex;
+      align-items: center;
+
+      > span {
+        margin: 0 0.5rem;
+      }
+
+      &__address {
+        padding: 0.25rem 0.5rem;
+        background: $secondary-theme;
+        border-radius: 4px;
+        width: 10rem;
+        text-align: center;
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__children {
+    > div {
+      padding: 5rem 0;
+    }
+  }
 }

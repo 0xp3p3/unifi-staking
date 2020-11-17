@@ -3,34 +3,28 @@
 .HomeHeader {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  flex-flow: wrap;
+  background: url("../../Assets/unifi-bg.png") top right;
+  background-repeat: no-repeat;
+  background-size: 40%;
 
-  &__logo {
-    svg {
-      height: 3rem;
-      width: auto;
+  > div {
+    width: 50%;
+  }
+
+  &__left {
+    &__title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    &__body {
+      font-weight: 300;
+      text-align: justify;
     }
   }
 
-  &__right-menu {
-    display: flex;
-    align-items: center;
-
-    > span {
-      margin: 0 0.5rem;
-    }
-
-    &__address {
-      padding: 0.25rem 0.5rem;
-      background: $secondary-theme;
-      border-radius: 4px;
-      width: 10rem;
-      text-align: center;
-      display: inline-block;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      cursor: pointer;
-    }
+  &__right {
   }
 }

@@ -1,47 +1,23 @@
-import React, { useState } from "react";
-import { useRecoilValue } from "recoil";
-import { ReactComponent as UnifiLogo } from "Assets/Unifi.svg";
-import { Adapter } from "../../Store/Adapter";
-import { ConnectionModal } from "../../Components/ConnectionModal";
-import { Balances } from "../../Store/Balance";
+import React from "react";
 
 import "./HomeHeader.scss";
-import { ConnectedModal } from "../../Components/ConnectedModal";
 
 export const HomeHeader = () => {
-  const adapter = useRecoilValue(Adapter);
-  const balance = useRecoilValue(Balances);
-  const [connectionModal, setConnectionModal] = useState(false);
-
   return (
     <div className="HomeHeader">
-      <span className="HomeHeader__logo">
-        <UnifiLogo />
-      </span>
-
-      <span className="HomeHeader__right-menu">
-        {adapter && (
-          <>
-            <span>{balance["BNB"]} BNB</span>
-            <span>{balance["UNFI"]} UNFI</span>
-          </>
-        )}
-        <span
-          className="HomeHeader__right-menu__address"
-          onClick={() => setConnectionModal(true)}
-        >
-          {adapter ? adapter.getAddress() : "Connect a Wallet"}
-        </span>
-      </span>
-
-      <ConnectionModal
-        isOpen={!adapter && connectionModal}
-        close={() => setConnectionModal(false)}
-      />
-      <ConnectedModal
-        isOpen={adapter !== undefined && connectionModal}
-        close={() => setConnectionModal(false)}
-      />
+      <div className="HomeHeader__left">
+        <div className="HomeHeader__left__title">Lorem ipsum</div>
+        <div className="HomeHeader__left__body">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+      </div>
+      <div className="HomeHeader__right"></div>
     </div>
   );
 };

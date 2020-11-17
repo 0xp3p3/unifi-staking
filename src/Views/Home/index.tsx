@@ -7,11 +7,6 @@ import "./Home.scss";
 export const Home = () => {
   return (
     <div className="Home">
-      <div className="Home__title">Invest on $UNFI</div>
-      <div className="Home__subtitle">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua.
-      </div>
       <div className="Home__items">
         <div className="Home__items__item">
           <div className="Home__items__item__title">Staking</div>

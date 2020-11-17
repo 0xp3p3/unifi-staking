@@ -4,10 +4,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: url("../../Assets/unifi-bg.png") top right;
-  background-repeat: no-repeat;
-  background-size: 40%;
-  min-height: 70vh;
 
   &__title {
     font-size: 2rem;
