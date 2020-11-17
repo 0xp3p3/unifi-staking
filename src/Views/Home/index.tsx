@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "../../Components/Button";
+import { Input } from "../../Components/Input";
 
 import "./Home.scss";
 
@@ -20,6 +21,9 @@ export const Home = () => {
           </div>
           <div className="Stake">
             <div className="Stake__available">You have 100 UNFI available</div>
+            <div className="Stake__input">
+              <Input placeholder="Amount" />
+            </div>
           </div>
           <div className="Home__items__item__submit">
             <Button onClick={() => {}}>Submit</Button>
