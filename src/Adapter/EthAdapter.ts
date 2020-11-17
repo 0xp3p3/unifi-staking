@@ -29,6 +29,10 @@ export default class EthAdapter implements IAdapter {
   protected address: string | undefined;
   protected nativeTokenName = "ETH";
   protected chainId = 1;
+  protected signer:
+    | ethers.providers.BaseProvider
+    | ethers.Signer
+    | undefined = undefined;
   private lastGasLimit: string | undefined;
 
   isConnected() {
@@ -79,6 +83,7 @@ export default class EthAdapter implements IAdapter {
                   );
                   if (chainId === this.chainId) {
                     this.address = accounts[0];
+                    this.signer = this.etherClient.getSigner();
                     this.onConnectCallback();
                     this.initializeContracts();
                     resolve(this);
@@ -129,7 +134,7 @@ export default class EthAdapter implements IAdapter {
       this.contracts[c.address] = new ethers.Contract(
         c.address,
         c.abi,
-        this.etherClient
+        this.signer
       );
     });
   }

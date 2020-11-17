@@ -6,6 +6,7 @@ import { HomeHeader } from "./Views/HomeHeader";
 import { Body } from "./Components/Body";
 import { RecoilRoot } from "recoil";
 import { Updater } from "./Components/Updater";
+import Loading from "./Components/Loading";
 
 import "./App.scss";
 
@@ -13,18 +14,19 @@ function App() {
   return (
     <div className="App">
       <RecoilRoot>
-        <Router>
+        <Loading />
+        {/* <Router>
           <Switch>
-            <Route path="/">
-              <Header>
-                <HomeHeader />
-              </Header>
-              <Body>
-                <Home />
-              </Body>
-            </Route>
+            <Route path="/"> */}
+        <Header>
+          <HomeHeader />
+        </Header>
+        <Body>
+          <Home />
+        </Body>
+        {/* </Route>
           </Switch>
-        </Router>
+        </Router> */}
         <Updater />
       </RecoilRoot>
     </div>

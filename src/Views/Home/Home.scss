@@ -102,5 +102,12 @@
       color: $secondary-theme;
       text-align: center;
     }
+
+    &__user-total {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: $secondary-theme;
+      text-align: center;
+    }
   }
 }

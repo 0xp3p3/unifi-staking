@@ -11,6 +11,7 @@ class BSCROAdapter extends EthAdapter {
     this.etherClient = new ethers.providers.JsonRpcProvider(
       Config.httpProvider
     );
+    this.signer = this.etherClient;
     this.initializeContracts();
   }
 

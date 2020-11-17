@@ -15,8 +15,8 @@ export const HomeHeader = () => {
           elements into its powerful DAO representative governance model. Start
           earning rewards now as we count down to the launch of the
           revolutionary Proof of Stake Global Governance Model powered by UNFI!
-          Stake your UNFI today to earn more UNFI rewards. All UNFI rewards can
-          be claimed at the conclusion of the promotion.
+          Stake your UNFI today to earn more UNFI rewards. UNFI can be unstaked,
+          and the staking rewards claimed, at the conclusion of the promotion.
         </div>
         <div className="HomeHeader__left__more-info">
           <a

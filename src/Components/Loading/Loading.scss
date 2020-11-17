@@ -1,0 +1,16 @@
+@import "Styles/_colors.scss";
+
+.Loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  .MuiLinearProgress-colorPrimary {
+    background-color: $green;
+  }
+
+  .MuiLinearProgress-barColorPrimary {
+    background-color: $light-green;
+  }
+}

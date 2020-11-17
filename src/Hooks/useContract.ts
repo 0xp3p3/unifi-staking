@@ -1,19 +1,26 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { ContractMethod } from "../Adapter/Contract";
 import { Config } from "../Config";
 import { Adapter } from "../Store/Adapter";
-import { toHex, BigNumber } from "../Utils/BigNumber";
+import { toHex, BigNumber, isNaN } from "../Utils/BigNumber";
 import BSCRO from "Adapter/BSCROAdapter";
 import { getPrecision } from "../Utils/Decimals";
+import { useInterval } from "../Utils/useInterval";
+import { Loading, isLoading as isLoadingReduced } from "../Store/Loading";
 
 export const useContract = () => {
   const [rewardRate, setRewardRate] = useState("0");
   const [totalClaimed, setTotalClaimed] = useState("0");
   const [totalStaked, setTotalStaked] = useState("0");
   const [userStaked, setUserStaked] = useState("0");
+  const [stakeAmount, setStakeAmount] = useState("0");
+  const [totalUserClaimed, setTotalUserClaimed] = useState("0");
+  const [pendingClaim, setPendingClaim] = useState("0");
 
   const adapter = useRecoilValue(Adapter);
+  const [, setLoading] = useRecoilState(Loading);
+  const isLoading = useRecoilValue(isLoadingReduced);
   const adapterRO = useMemo(() => BSCRO, []);
 
   const approval = async (amount: string) => {
@@ -22,11 +29,81 @@ export const useContract = () => {
     const adapterResponse = await adapter.execute(
       Config.contracts.UNFI.address,
       ContractMethod.APPROVE,
-      { callValue: hexAmount },
+      { args: [Config.stakeContract.address, hexAmount] },
       true
     );
     return adapterResponse;
   };
+
+  const stake = async () => {
+    if (!adapter || isLoading) return;
+    if (isNaN(stakeAmount)) return;
+
+    setLoading((curr) => ({ ...curr, loading: curr.loading + 1 }));
+
+    const hexAmount = toHex(
+      BigNumber(stakeAmount)
+        .multipliedBy(getPrecision(Config.contracts.UNFI.address))
+        .decimalPlaces(0)
+        .toFixed()
+    );
+
+    await approval(hexAmount);
+
+    const adapterResponse = await adapter.execute(
+      Config.stakeContract.address,
+      ContractMethod.STAKE,
+      { args: [hexAmount] },
+      true
+    );
+
+    setLoading((curr) => ({ ...curr, totalRequests: curr.totalRequests + 1 }));
+
+    return adapterResponse;
+  };
+
+  const claim = async () => {
+    if (!adapter) return;
+
+    setLoading((curr) => ({ ...curr, loading: curr.loading + 1 }));
+
+    const adapterResponse = await adapter.execute(
+      Config.stakeContract.address,
+      ContractMethod.CLAIM,
+      {},
+      true
+    );
+
+    setLoading((curr) => ({ ...curr, totalRequests: curr.totalRequests + 1 }));
+
+    return adapterResponse;
+  };
+
+  const getTotalUserClaimed = useCallback(async () => {
+    if (!adapter) return "0";
+    const adapterResponse = await adapter.execute(
+      Config.stakeContract.address,
+      ContractMethod.TOTAL_CLAIMED,
+      { args: [adapter.getAddress()], callValue: undefined },
+      false
+    );
+    return BigNumber(adapterResponse.value)
+      .dividedBy(getPrecision(Config.stakeContract.address))
+      .toFixed();
+  }, [adapter]);
+
+  const getPendingClaim = useCallback(async () => {
+    if (!adapter) return "0";
+    const adapterResponse = await adapter.execute(
+      Config.stakeContract.address,
+      ContractMethod.PENDING_CLAIM,
+      { args: [adapter.getAddress()], callValue: undefined },
+      false
+    );
+    return BigNumber(adapterResponse.value)
+      .dividedBy(getPrecision(Config.stakeContract.address))
+      .toFixed();
+  }, [adapter]);
 
   const getUserStaked = useCallback(async () => {
     if (!adapter) return "0";
@@ -88,7 +165,31 @@ export const useContract = () => {
 
   useEffect(() => {
     getUserStaked().then(setUserStaked);
-  }, [getUserStaked]);
+    getTotalStaked().then(setTotalStaked);
+    getTotalUserClaimed().then(setTotalUserClaimed);
+    getPendingClaim().then(setPendingClaim);
+  }, [adapter]);
 
-  return { approval, rewardRate, totalClaimed, totalStaked, userStaked };
+  useInterval(
+    () => {
+      getUserStaked().then(setUserStaked);
+      getTotalStaked().then(setTotalStaked);
+      getTotalUserClaimed().then(setTotalUserClaimed);
+      getPendingClaim().then(setPendingClaim);
+    },
+    adapter ? 5000 : null
+  );
+
+  return {
+    approval,
+    setStakeAmount,
+    stake,
+    claim,
+    rewardRate,
+    totalClaimed,
+    totalStaked,
+    userStaked,
+    totalUserClaimed,
+    pendingClaim,
+  };
 };

@@ -10,4 +10,6 @@ export enum ContractMethod {
   UNSTAKE = "unstake",
   CLAIM = "claim",
   REWARD_RATE = "rewardRate",
+  TOTAL_CLAIMED = "totalClaimed",
+  PENDING_CLAIM = "stakePendingReward",
 }

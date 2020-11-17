@@ -1,5 +1,4 @@
 import React from "react";
-import Countdown from "react-countdown";
 import { useRecoilValue } from "recoil";
 import { Button } from "../../Components/Button";
 import { Input } from "../../Components/Input";
@@ -12,7 +11,17 @@ import "./Home.scss";
 
 export const Home = () => {
   const balances = useRecoilValue(Balances);
-  const { rewardRate, totalClaimed, totalStaked, userStaked } = useContract();
+  const {
+    rewardRate,
+    totalClaimed,
+    totalStaked,
+    userStaked,
+    pendingClaim,
+    totalUserClaimed,
+    setStakeAmount,
+    stake,
+    claim,
+  } = useContract();
 
   return (
     <div className="Home">
@@ -31,25 +40,27 @@ export const Home = () => {
               <Input
                 placeholder="Amount"
                 max={balances[Config.contracts.UNFI.address]}
+                onChange={setStakeAmount}
               />
             </div>
           </div>
           <div className="Home__items__item__submit">
-            <Button onClick={() => {}}>Submit</Button>
+            <Button onClick={stake}>Submit</Button>
           </div>
         </div>
         <div className="Home__items__item">
           <div className="Home__items__item__title">Claim</div>
           <div className="Unclaimed">
             <div className="Unclaimed__amount">
-              <Countdown date={1608357600000} />
+              {localiseNumber(pendingClaim)}
             </div>
-            <div className="Unclaimed__label">Time to claim your rewards</div>
+            <div className="Unclaimed__label">Unclaimed staking rewards</div>
+            <div className="Unclaimed__user-total">
+              Total claimed rewards: {localiseNumber(totalUserClaimed)}
+            </div>
           </div>
           <div className="Home__items__item__submit">
-            <Button disabled onClick={() => {}}>
-              Claim Rewards
-            </Button>
+            <Button onClick={claim}>Claim Rewards</Button>
           </div>
         </div>
         <div className="Home__items__item">
