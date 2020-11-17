@@ -51,7 +51,6 @@ export const useContract = () => {
         return;
       }
       if (!BigNumber(stakeAmount).isGreaterThan(0)) return;
-      console.log("useContract -> isNaN(stakeAmount)", isNaN(stakeAmount));
       if (
         isNaN(stakeAmount) ||
         BigNumber(stakeAmount).isGreaterThan(
