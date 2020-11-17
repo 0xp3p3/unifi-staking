@@ -1,0 +1,39 @@
+@import "Styles/_colors.scss";
+
+.ConnectedModal {
+  width: 25rem;
+
+  &__header {
+    padding-bottom: 1rem;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+
+    &__close {
+      cursor: pointer;
+    }
+  }
+
+  &__body {
+    padding: 1.5rem 2rem;
+
+    &__logout {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+  }
+}
+
+.ReactModal__Content {
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin-right: -50% !important;
+  transform: translate(-50%, -50%) !important;
+  padding: 0 !important;
+}

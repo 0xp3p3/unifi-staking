@@ -1,0 +1,19 @@
+@import "Styles/_colors.scss";
+
+.Button {
+  background: $primary-theme;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0.6rem 2rem;
+  border-radius: 5px;
+  border: 0;
+  cursor: pointer;
+  outline: 0;
+  transition: opacity 0.3s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}

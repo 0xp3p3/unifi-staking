@@ -1,0 +1,47 @@
+@import "Styles/_colors.scss";
+
+.ConnectionModal {
+  width: 25rem;
+
+  &__header {
+    padding-bottom: 1rem;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+
+    &__close {
+      cursor: pointer;
+    }
+  }
+
+  &__body {
+    padding: 1.5rem 2rem;
+
+    ul {
+      margin: 0;
+      padding: 0;
+
+      li {
+        list-style: none;
+        padding: 0.5rem 1rem;
+        margin: 1rem 0;
+        border-radius: 5px;
+        background: $lightest-grey;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.ReactModal__Content {
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin-right: -50% !important;
+  transform: translate(-50%, -50%) !important;
+  padding: 0 !important;
+}

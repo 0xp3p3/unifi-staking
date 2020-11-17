@@ -13,6 +13,7 @@ $purple-gradient: linear-gradient(180deg, $light-purple, $dark-purple);
 $grey: #292929;
 $dark-grey: darken(#292929, 15%);
 $light-grey: lighten(#292929, 10%);
+$lightest-grey: lighten(#292929, 80%);
 
 $blue: #1da3c9;
 $blue-gradient: linear-gradient(to right top, $blue, lighten($blue, 15%));

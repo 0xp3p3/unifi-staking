@@ -2,39 +2,103 @@
 
 .Home {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 1.5rem 0;
+  background: url("../../Assets/unifi-bg.png") top right;
+  background-repeat: no-repeat;
+  background-size: 40%;
+  min-height: 70vh;
 
-  &__item {
-    flex: 1;
-    width: 20rem;
-    height: 20rem;
-    padding: 1rem;
-    border: 1px solid $light-grey;
-    border-radius: 3px;
-    margin: 0 1rem;
-    transition: border 0.5s;
-    cursor: pointer;
+  &__title {
+    font-size: 2rem;
+    font-weight: 700;
+    width: 60%;
+    text-align: center;
+  }
 
-    &.green {
-      background: $primary-theme;
-      border: 1px solid $primary-theme;
+  &__subtitle {
+    font-size: 1.2rem;
+    font-weight: 400;
+    width: 60%;
+    text-align: center;
+  }
+
+  &__items {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+
+    &__item {
+      padding: 1rem;
+      width: 20rem;
+      height: 20rem;
+      border-radius: 5px;
+      margin: 0 0.5rem;
+      background: rgba(255, 255, 255, 0.985);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      &__title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      &__list {
+        .list__li {
+          margin: 0.25rem 0;
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+
+      &__submit {
+        display: flex;
+        justify-content: center;
+
+        .Button {
+          width: 95%;
+        }
+      }
     }
+  }
 
-    &:hover {
-      border: 1px solid $primary-theme;
-    }
-
-    &__title {
+  .Staking {
+    &__amount {
+      font-size: 2rem;
       font-weight: 700;
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
+      text-align: center;
     }
 
-    &__text {
+    &__amount-title {
       font-size: 0.8rem;
+      color: $secondary-theme;
+      text-align: center;
+    }
+  }
+
+  .Stake {
+    margin-top: 1.5rem;
+
+    &__available {
+      text-align: center;
+    }
+  }
+
+  .Unclaimed {
+    &__amount {
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    &__label {
+      font-size: 0.8rem;
+      color: $secondary-theme;
+      text-align: center;
     }
   }
 }
