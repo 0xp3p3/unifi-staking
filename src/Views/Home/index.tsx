@@ -34,7 +34,8 @@ export const Home = () => {
           </div>
           <div className="Stake">
             <div className="Stake__available">
-              You have {balances[Config.contracts.UNFI.address]} UNFI available
+              You have {localiseNumber(balances[Config.contracts.UNFI.address])}{" "}
+              UNFI available
             </div>
             <div className="Stake__input">
               <Input

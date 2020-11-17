@@ -16,6 +16,7 @@ Object.freeze(Emitter);
 enum EmitterAction {
   REFRESH_BALANCES = "REFRESH_BALANCES",
   BALANCE = "BALANCE",
+  NOTIFICATION = "NOTIFICATION",
 }
 
 export { Emitter, EmitterAction };

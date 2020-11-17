@@ -8,6 +8,8 @@ import BSCRO from "Adapter/BSCROAdapter";
 import { getPrecision } from "../Utils/Decimals";
 import { useInterval } from "../Utils/useInterval";
 import { Loading, isLoading as isLoadingReduced } from "../Store/Loading";
+import { Balances } from "../Store/Balance";
+import { Emitter, EmitterAction } from "../Utils/EventEmitter";
 
 export const useContract = () => {
   const [rewardRate, setRewardRate] = useState("0");
@@ -19,12 +21,13 @@ export const useContract = () => {
   const [pendingClaim, setPendingClaim] = useState("0");
 
   const adapter = useRecoilValue(Adapter);
+  const balances = useRecoilValue(Balances);
   const [, setLoading] = useRecoilState(Loading);
   const isLoading = useRecoilValue(isLoadingReduced);
   const adapterRO = useMemo(() => BSCRO, []);
 
   const approval = async (amount: string) => {
-    if (!adapter) return;
+    if (!adapter) return { success: false };
     const hexAmount = toHex(amount);
     const adapterResponse = await adapter.execute(
       Config.contracts.UNFI.address,
@@ -36,47 +39,126 @@ export const useContract = () => {
   };
 
   const stake = async () => {
-    if (!adapter || isLoading) return;
-    if (isNaN(stakeAmount)) return;
+    try {
+      if (isLoading) return;
+      setLoading((curr) => ({ ...curr, loading: curr.loading + 1 }));
 
-    setLoading((curr) => ({ ...curr, loading: curr.loading + 1 }));
+      if (!adapter) {
+        Emitter.emit(EmitterAction.NOTIFICATION, {
+          notification: "NO_WALLET",
+          type: "info",
+        });
+        return;
+      }
+      if (!BigNumber(stakeAmount).isGreaterThan(0)) return;
+      console.log("useContract -> isNaN(stakeAmount)", isNaN(stakeAmount));
+      if (
+        isNaN(stakeAmount) ||
+        BigNumber(stakeAmount).isGreaterThan(
+          balances[Config.contracts.UNFI.address]
+        )
+      ) {
+        Emitter.emit(EmitterAction.NOTIFICATION, {
+          notification: "INVALID_AMOUNT",
+          type: "warning",
+        });
+        return;
+      }
 
-    const hexAmount = toHex(
-      BigNumber(stakeAmount)
-        .multipliedBy(getPrecision(Config.contracts.UNFI.address))
-        .decimalPlaces(0)
-        .toFixed()
-    );
+      const hexAmount = toHex(
+        BigNumber(stakeAmount)
+          .multipliedBy(getPrecision(Config.contracts.UNFI.address))
+          .decimalPlaces(0)
+          .toFixed()
+      );
 
-    await approval(hexAmount);
+      const approvalResponse = await approval(hexAmount);
+      if (approvalResponse.success === false) {
+        Emitter.emit(EmitterAction.NOTIFICATION, {
+          notification: "STAKE_FAILED",
+          type: "error",
+        });
+        return;
+      }
 
-    const adapterResponse = await adapter.execute(
-      Config.stakeContract.address,
-      ContractMethod.STAKE,
-      { args: [hexAmount] },
-      true
-    );
+      const adapterResponse = await adapter.execute(
+        Config.stakeContract.address,
+        ContractMethod.STAKE,
+        { args: [hexAmount] },
+        true
+      );
 
-    setLoading((curr) => ({ ...curr, totalRequests: curr.totalRequests + 1 }));
+      if (adapterResponse.success === false) {
+        Emitter.emit(EmitterAction.NOTIFICATION, {
+          notification: "STAKE_FAILED",
+          type: "error",
+        });
+        return;
+      }
 
-    return adapterResponse;
+      Emitter.emit(EmitterAction.NOTIFICATION, {
+        notification: "STAKE_SUCCESSFUL",
+        type: "success",
+      });
+      return adapterResponse;
+    } catch (err) {
+      Emitter.emit(EmitterAction.NOTIFICATION, {
+        notification: "STAKE_FAILED",
+        type: "error",
+      });
+    } finally {
+      setLoading((curr) => ({
+        ...curr,
+        totalRequests: curr.totalRequests + 1,
+      }));
+    }
   };
 
   const claim = async () => {
-    if (!adapter) return;
+    try {
+      if (isLoading) return;
+      setLoading((curr) => ({ ...curr, loading: curr.loading + 1 }));
 
-    setLoading((curr) => ({ ...curr, loading: curr.loading + 1 }));
+      if (!adapter) {
+        Emitter.emit(EmitterAction.NOTIFICATION, {
+          notification: "NO_WALLET",
+          type: "info",
+        });
+        return;
+      }
+      if (!BigNumber(pendingClaim).isGreaterThan(0)) return;
 
-    const adapterResponse = await adapter.execute(
-      Config.stakeContract.address,
-      ContractMethod.CLAIM,
-      {},
-      true
-    );
+      const adapterResponse = await adapter.execute(
+        Config.stakeContract.address,
+        ContractMethod.CLAIM,
+        {},
+        true
+      );
 
-    setLoading((curr) => ({ ...curr, totalRequests: curr.totalRequests + 1 }));
+      if (adapterResponse.success === false) {
+        Emitter.emit(EmitterAction.NOTIFICATION, {
+          notification: "CLAIM_FAILED",
+          type: "error",
+        });
+        return;
+      }
 
-    return adapterResponse;
+      Emitter.emit(EmitterAction.NOTIFICATION, {
+        notification: "CLAIM_SUCCESSFUL",
+        type: "success",
+      });
+      return adapterResponse;
+    } catch (err) {
+      Emitter.emit(EmitterAction.NOTIFICATION, {
+        notification: "CLAIM_FAILED",
+        type: "error",
+      });
+    } finally {
+      setLoading((curr) => ({
+        ...curr,
+        totalRequests: curr.totalRequests + 1,
+      }));
+    }
   };
 
   const getTotalUserClaimed = useCallback(async () => {
@@ -168,6 +250,7 @@ export const useContract = () => {
     getTotalStaked().then(setTotalStaked);
     getTotalUserClaimed().then(setTotalUserClaimed);
     getPendingClaim().then(setPendingClaim);
+    // eslint-disable-next-line
   }, [adapter]);
 
   useInterval(

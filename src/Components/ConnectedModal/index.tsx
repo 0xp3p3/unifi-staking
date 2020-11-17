@@ -1,10 +1,12 @@
 import React, { useMemo } from "react";
 import Modal from "react-modal";
-import { useRecoilState } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import { Adapter } from "../../Store/Adapter";
 import { Config } from "../../Config";
 import { Button } from "../Button";
 import { Close } from "@material-ui/icons";
+import { Emitter, EmitterAction } from "../../Utils/EventEmitter";
+import { Balances } from "../../Store/Balance";
 
 import "./ConnectedModal.scss";
 
@@ -12,7 +14,9 @@ export const ConnectedModal: React.FC<{
   isOpen: boolean;
   close: () => void;
 }> = ({ isOpen, close }) => {
-  const [adapter, setAdapter] = useRecoilState(Adapter);
+  const adapter = useRecoilValue(Adapter);
+  const resetBalances = useResetRecoilState(Balances);
+  const resetAdapter = useResetRecoilState(Adapter);
 
   const explorerLink = useMemo(() => {
     return adapter
@@ -21,8 +25,13 @@ export const ConnectedModal: React.FC<{
   }, [adapter]);
 
   const onDisconnectClick = () => {
-    setAdapter(undefined);
+    resetAdapter();
+    resetBalances();
     close();
+    Emitter.emit(EmitterAction.NOTIFICATION, {
+      notification: "DISCONNECT",
+      type: "info",
+    });
   };
 
   return (
