@@ -20,12 +20,15 @@ declare global {
 }
 
 export default class EthAdapter implements IAdapter {
-  protected etherClient: ethers.providers.Web3Provider | undefined;
+  protected etherClient:
+    | ethers.providers.JsonRpcProvider
+    | ethers.providers.Web3Provider
+    | undefined;
   protected onConnectCallback = () => {};
   protected contracts: { [nameContract: string]: ethers.Contract } = {};
   protected address: string | undefined;
   protected nativeTokenName = "ETH";
-  protected chainId = "1";
+  protected chainId = 1;
   private lastGasLimit: string | undefined;
 
   isConnected() {
@@ -71,8 +74,9 @@ export default class EthAdapter implements IAdapter {
                   this.etherClient = new ethers.providers.Web3Provider(
                     ethereum
                   );
-                  const chainId = (this.etherClient.provider as any)
-                    .networkVersion;
+                  const chainId = parseInt(
+                    (this.etherClient as any).provider.chainId
+                  );
                   if (chainId === this.chainId) {
                     this.address = accounts[0];
                     this.onConnectCallback();
@@ -125,7 +129,7 @@ export default class EthAdapter implements IAdapter {
       this.contracts[c.address] = new ethers.Contract(
         c.address,
         c.abi,
-        this.etherClient!.getSigner()
+        this.etherClient
       );
     });
   }
@@ -234,7 +238,7 @@ export default class EthAdapter implements IAdapter {
     return { name: contractAddress, balance };
   }
 
-  private async getEstimatedGasPrice(
+  protected async getEstimatedGasPrice(
     contract: ethers.Contract,
     contractMethod: ContractMethod,
     params: ExecutionParams
@@ -254,7 +258,7 @@ export default class EthAdapter implements IAdapter {
   }
 }
 
-function computeInvocationParams(
+export function computeInvocationParams(
   params: ExecutionParams,
   gasOptions: { gasPrice?: string; gasLimit?: string } = {}
 ) {

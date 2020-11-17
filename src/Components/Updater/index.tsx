@@ -18,19 +18,19 @@ export const Updater = () => {
     [setBalances]
   );
 
-  const fetchBalances = () => {
+  const fetchBalances = useCallback(() => {
     if (!adapter) return;
     adapter.getBalances().then(() => {
       setTimeout(() => {
         fetchBalances();
       }, 5000);
     });
-  };
+  }, [adapter]);
 
   useEffect(() => {
     fetchBalances();
     Emitter.on(EmitterAction.BALANCE, updateStateBalances as any);
-  }, [adapter, updateStateBalances]);
+  }, [adapter, updateStateBalances, fetchBalances]);
 
   return <></>;
 };

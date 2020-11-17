@@ -3,13 +3,14 @@ export const Config = {
   blockchainToken: "BNB",
   transactionExplorer: "https://bscscan.com/tx/{{TRANSACTION_HASH}}",
   accountExplorer: "https://bscscan.com/address/{{ADDRESS}}",
+  httpProvider: "https://data-seed-prebsc-1-s1.binance.org:8545/",
   stakeContract: {
-    address: "0x65bB9C768E26005FF0CF569FfB21745799f86bee",
+    address: "0x5DD835057c6a378559325EBCC5b41c41329343c0",
     decimals: 18,
   },
   contracts: {
     UNFI: {
-      address: "0x363d1aac158a43eac9b217eaa63e4e3345bb92a1",
+      address: "0x363D1AAc158a43eAc9b217eAa63e4E3345Bb92A1",
       decimals: 18,
     },
     BNB: {

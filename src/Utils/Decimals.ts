@@ -12,7 +12,15 @@ const powerDictionary: {
       decimals: contract.decimals,
       precision: Math.pow(10, contract.decimals),
     };
+    powerDictionary[contract.address] = {
+      decimals: contract.decimals,
+      precision: Math.pow(10, contract.decimals),
+    };
   });
+  powerDictionary[Config.stakeContract.address] = {
+    decimals: Config.stakeContract.decimals,
+    precision: Math.pow(10, Config.stakeContract.decimals),
+  };
 })();
 
 export const getPrecision = (tokenOrContract: string) => {
