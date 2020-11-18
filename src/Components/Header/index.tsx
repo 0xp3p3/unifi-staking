@@ -34,6 +34,12 @@ export const Header: React.FC = ({ children }) => {
           >
             {adapter ? adapter.getAddress() : "Connect a Wallet"}
           </span>
+          <a
+            className="Header__info__right-menu__utrade"
+            href="https://binance.unifiprotocol.com/"
+          >
+            Back to uTrade
+          </a>
         </span>
 
         <ConnectionModal

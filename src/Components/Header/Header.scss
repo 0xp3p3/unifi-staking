@@ -36,6 +36,19 @@
         text-overflow: ellipsis;
         cursor: pointer;
       }
+
+      &__utrade {
+        text-decoration: none;
+        background: transparentize($color: $primary-theme, $amount: 0.1);
+        color: #fff;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        transition: background 0.3s;
+
+        &:hover {
+          background: transparentize($color: $primary-theme, $amount: 0.3);
+        }
+      }
     }
   }
 
