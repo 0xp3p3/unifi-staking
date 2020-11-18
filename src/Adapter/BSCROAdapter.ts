@@ -5,8 +5,7 @@ import EthAdapter from "./EthAdapter";
 class BSCROAdapter extends EthAdapter {
   constructor() {
     super();
-    // this.chainId = "56";
-    this.chainId = 97;
+    this.chainId = 56;
     this.nativeTokenName = "BNB";
     this.etherClient = new ethers.providers.JsonRpcProvider(
       Config.httpProvider
