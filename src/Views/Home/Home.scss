@@ -36,6 +36,10 @@
       flex-direction: column;
       justify-content: space-between;
 
+      @media only screen and (max-width: 480px) {
+        margin: 0.5rem;
+      }
+
       &__title {
         font-size: 1.2rem;
         font-weight: 700;
@@ -108,6 +112,12 @@
       font-size: 0.8rem;
       color: $secondary-theme;
       text-align: center;
+    }
+  }
+
+  @media only screen and (max-width: 480px) {
+    &__items {
+      flex-direction: column;
     }
   }
 }

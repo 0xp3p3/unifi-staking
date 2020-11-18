@@ -44,4 +44,30 @@
       padding: 5rem 0;
     }
   }
+
+  @media only screen and (max-width: 480px) {
+    &__info {
+      flex-direction: column;
+
+      > span {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      &__right-menu {
+        margin-top: 1rem;
+
+        > span {
+          margin: 0.3rem 0;
+        }
+      }
+    }
+
+    &__children {
+      > div {
+        padding: 1rem 0;
+      }
+    }
+  }
 }

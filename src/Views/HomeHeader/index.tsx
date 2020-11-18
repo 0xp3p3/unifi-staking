@@ -28,7 +28,7 @@ export const HomeHeader = () => {
           </a>
         </div>
       </div>
-      <div className="HomeHeader__right"></div>
+      <div className="HomeHeader__right hide-for-mobile"></div>
     </div>
   );
 };
