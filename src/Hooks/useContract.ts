@@ -19,6 +19,7 @@ export const useContract = () => {
   const [stakeAmount, setStakeAmount] = useState("0");
   const [totalUserClaimed, setTotalUserClaimed] = useState("0");
   const [pendingClaim, setPendingClaim] = useState("0");
+  const [endTime, setEndTime] = useState(0);
 
   const adapter = useRecoilValue(Adapter);
   const balances = useRecoilValue(Balances);
@@ -232,6 +233,15 @@ export const useContract = () => {
       .toFixed();
   }, [adapterRO]);
 
+  const getEndTime = useCallback(async () => {
+    const adapterResponse = await adapterRO.execute(
+      Config.stakeContract.address,
+      ContractMethod.PERIOD_FINISH,
+      { args: [], callValue: undefined }
+    );
+    return adapterResponse.value;
+  }, [adapterRO]);
+
   useEffect(() => {
     getRewardRate().then(setRewardRate);
   }, [getRewardRate]);
@@ -249,6 +259,9 @@ export const useContract = () => {
     getTotalStaked().then(setTotalStaked);
     getTotalUserClaimed().then(setTotalUserClaimed);
     getPendingClaim().then(setPendingClaim);
+    getEndTime().then((v) =>
+      setEndTime(BigNumber(v).multipliedBy(1000).toNumber())
+    );
     // eslint-disable-next-line
   }, [adapter]);
 
@@ -273,5 +286,6 @@ export const useContract = () => {
     userStaked,
     totalUserClaimed,
     pendingClaim,
+    endTime,
   };
 };

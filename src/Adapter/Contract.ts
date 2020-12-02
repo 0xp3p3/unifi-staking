@@ -12,4 +12,5 @@ export enum ContractMethod {
   REWARD_RATE = "rewardRate",
   TOTAL_CLAIMED = "totalClaimed",
   PENDING_CLAIM = "stakePendingReward",
+  PERIOD_FINISH = "periodFinish",
 }

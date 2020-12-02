@@ -6,12 +6,14 @@ import { Config } from "../../Config";
 import { useContract } from "../../Hooks/useContract";
 import { Balances } from "../../Store/Balance";
 import { localiseNumber } from "../../Utils/BigNumber";
+import { formatTime } from "../../Utils/Time";
 
 import "./Home.scss";
 
 export const Home = () => {
   const balances = useRecoilValue(Balances);
   const {
+    endTime,
     rewardRate,
     totalClaimed,
     totalStaked,
@@ -78,6 +80,10 @@ export const Home = () => {
             <div className="list__li">
               <span>$UNFI/Block</span>
               <span>{localiseNumber(rewardRate)}</span>
+            </div>
+            <div className="list__li">
+              <span>Promotion end time</span>
+              <span>{endTime === 0 ? "-" : formatTime(endTime)}</span>
             </div>
           </div>
           <div className="Home__items__item__submit">
