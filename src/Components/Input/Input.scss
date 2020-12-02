@@ -18,7 +18,8 @@
   &__max {
     position: absolute;
     right: 0.5rem;
-    top: 0.3rem;
+    top: 50%;
+    transform: translate(0, -50%);
     color: rgba(0, 0, 0, 0.2);
     font-weight: 600;
     cursor: pointer;

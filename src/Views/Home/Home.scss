@@ -67,9 +67,10 @@
 
   .Staking {
     &__amount {
-      font-size: 2rem;
+      font-size: 1.75rem;
       font-weight: 700;
       text-align: center;
+      word-break: break-word;
     }
 
     &__amount-title {

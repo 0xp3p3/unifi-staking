@@ -1,56 +1,34 @@
-import React from "react";
-import { useRecoilValue } from "recoil";
+import React, { useMemo } from "react";
 import { Button } from "../../Components/Button";
-import { Input } from "../../Components/Input";
-import { Config } from "../../Config";
+import { Stake } from "../../Components/Stake";
+import { Unstake } from "../../Components/Unstake";
 import { useContract } from "../../Hooks/useContract";
-import { Balances } from "../../Store/Balance";
 import { localiseNumber } from "../../Utils/BigNumber";
 import { formatTime } from "../../Utils/Time";
 
 import "./Home.scss";
 
 export const Home = () => {
-  const balances = useRecoilValue(Balances);
   const {
     endTime,
     rewardRate,
     totalClaimed,
     totalStaked,
-    userStaked,
     pendingClaim,
     totalUserClaimed,
-    setStakeAmount,
-    stake,
     claim,
   } = useContract();
+
+  const promoFinished = useMemo(() => {
+    const currDate = Date.now();
+    if (endTime === 0) return false;
+    return currDate > endTime;
+  }, [endTime]);
 
   return (
     <div className="Home">
       <div className="Home__items">
-        <div className="Home__items__item">
-          <div className="Home__items__item__title">Staking</div>
-          <div className="Staking">
-            <div className="Staking__amount">{localiseNumber(userStaked)}</div>
-            <div className="Staking__amount-title">Your UNFI staked</div>
-          </div>
-          <div className="Stake">
-            <div className="Stake__available">
-              You have {localiseNumber(balances[Config.contracts.UNFI.address])}{" "}
-              UNFI available
-            </div>
-            <div className="Stake__input">
-              <Input
-                placeholder="Amount"
-                max={balances[Config.contracts.UNFI.address]}
-                onChange={setStakeAmount}
-              />
-            </div>
-          </div>
-          <div className="Home__items__item__submit">
-            <Button onClick={stake}>Submit</Button>
-          </div>
-        </div>
+        {promoFinished ? <Unstake /> : <Stake />}
         <div className="Home__items__item">
           <div className="Home__items__item__title">Claim</div>
           <div className="Unclaimed">

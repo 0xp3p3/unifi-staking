@@ -6,6 +6,8 @@ export const Notification = {
   CLAIM_FAILED: "Your claim has failed.",
   STAKE_SUCCESSFUL: "Your stake has been processed.",
   STAKE_FAILED: "Your stake has failed.",
+  UNSTAKE_SUCCESSFUL: "Your unstake has been processed.",
+  UNSTAKE_FAILED: "Your unstake has failed.",
   INVALID_AMOUNT:
     "Typed amount is invalid - Is not a number or is greater than your balances.",
 };

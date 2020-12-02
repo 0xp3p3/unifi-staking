@@ -114,6 +114,70 @@ export const useContract = () => {
     }
   };
 
+  const unstake = async () => {
+    try {
+      if (isLoading) return;
+      setLoading((curr) => ({ ...curr, loading: curr.loading + 1 }));
+
+      if (!adapter) {
+        Emitter.emit(EmitterAction.NOTIFICATION, {
+          notification: "NO_WALLET",
+          type: "info",
+        });
+        return;
+      }
+      if (!BigNumber(stakeAmount).isGreaterThan(0)) return;
+      if (
+        isNaN(stakeAmount) ||
+        BigNumber(stakeAmount).isGreaterThan(userStaked)
+      ) {
+        Emitter.emit(EmitterAction.NOTIFICATION, {
+          notification: "INVALID_AMOUNT",
+          type: "warning",
+        });
+        return;
+      }
+
+      const hexAmount = toHex(
+        BigNumber(stakeAmount)
+          .multipliedBy(getPrecision(Config.contracts.UNFI.address))
+          .decimalPlaces(0)
+          .toFixed()
+      );
+
+      const adapterResponse = await adapter.execute(
+        Config.stakeContract.address,
+        ContractMethod.UNSTAKE,
+        { args: [hexAmount] },
+        true
+      );
+
+      if (adapterResponse.success === false) {
+        Emitter.emit(EmitterAction.NOTIFICATION, {
+          notification: "STAKE_FAILED",
+          type: "error",
+        });
+        return;
+      }
+
+      Emitter.emit(EmitterAction.NOTIFICATION, {
+        notification: "UNSTAKE_SUCCESSFUL",
+        type: "success",
+      });
+      return adapterResponse;
+    } catch (err) {
+      Emitter.emit(EmitterAction.NOTIFICATION, {
+        notification: "UNSTAKE_FAILED",
+        type: "error",
+      });
+    } finally {
+      setLoading((curr) => ({
+        ...curr,
+        totalRequests: curr.totalRequests + 1,
+      }));
+    }
+  };
+
   const claim = async () => {
     try {
       if (isLoading) return;
@@ -280,6 +344,7 @@ export const useContract = () => {
     setStakeAmount,
     stake,
     claim,
+    unstake,
     rewardRate,
     totalClaimed,
     totalStaked,
