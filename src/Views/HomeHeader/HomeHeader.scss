@@ -22,6 +22,13 @@
     &__body {
       font-weight: 300;
       text-align: justify;
+
+      p {
+        a {
+          text-decoration: none;
+          color: $primary-theme;
+        }
+      }
     }
 
     &__more-info {

@@ -68,6 +68,29 @@ export const Home = () => {
             {/* <Button onClick={() => {}}>Submit</Button> */}
           </div>
         </div>
+        <div
+          className="Home__items__item"
+          onClick={() => {
+            window.open("http://unifiprotocol.com/transfer");
+          }}
+        >
+          <div className="Home__items__item__title">
+            Transfer your UNFI tokens
+          </div>
+          <div style={{ textAlign: "center" }}>
+            Click here to transfer your UNFI tokens to Ethereum and earn MORE
+            staking rewards!
+          </div>
+          <div className="Home__items__item__submit">
+            <Button
+              onClick={() => {
+                window.open("http://unifiprotocol.com/transfer");
+              }}
+            >
+              Go to Transfer page
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
