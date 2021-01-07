@@ -68,7 +68,7 @@ export const Home = () => {
             {/* <Button onClick={() => {}}>Submit</Button> */}
           </div>
         </div>
-        <div
+        {/* <div
           className="Home__items__item"
           onClick={() => {
             window.open("http://unifiprotocol.com/transfer");
@@ -90,7 +90,7 @@ export const Home = () => {
               Go to Transfer page
             </Button>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
